@@ -66,27 +66,30 @@ void convertSecondsToDHMS(time_t totalSeconds, int &Restdays, int &Resthours, in
             _rtc.GetTime(&time);
             _rtc.GetDate(&date);
             time_t unixTime = convertToUnixTime(date.Year, date.Month, date.Date, time.Hours, time.Minutes, time.Seconds);
-            Disbuff->setTextSize(4);
-            Disbuff->setTextColor(TFT_WHITE);
-            Disbuff->setCursor(25, 50);
-            Disbuff->printf("%02d:%02d:%02d", time.Hours, time.Minutes, time.Seconds);
-            Disbuff->setCursor(0, 100);
-            Disbuff->printf("%02d:%02d:%04d", date.Date, date.Month, date.Year);
-
+            
             // Calculate countdown
             time_t countdown = TrumpStop - unixTime;
             int Restdays, Resthours, Restminutes, Restseconds;
             convertSecondsToDHMS(countdown, Restdays, Resthours, Restminutes, Restseconds);
 
-
+            Disbuff->setTextSize(4);
+            Disbuff->setTextColor(TFT_WHITE);
+            Disbuff->setCursor(25, 100);
+            Disbuff->printf("%02d:%02d:%02d", time.Hours, time.Minutes, time.Seconds);
+            Disbuff->setCursor(25, 50);
+            Disbuff->printf("%02d:%02d:%02d", Resthours, Restminutes, Restseconds);
+            //Disbuff->printf("%d days %02d:%02d:%02d", Restdays, Resthours, Restminutes, Restseconds); // Countdown to TrumpStop
+            //Disbuff->setCursor(0, 100);
+            //Disbuff->printf("%02d:%02d:%04d", date.Date, date.Month, date.Year);
 
             Disbuff->fillRect(0, 0, 240, 25, Disbuff->color565(20, 20, 20));
             Disbuff->setTextSize(2);
             Disbuff->setCursor(10, 5);
-           
+            Disbuff->printf("%d days ", Restdays); // Countdown to TrumpStop
            // Disbuff->printf("%ld", TrumpStop-unixTime); // Countdown to TrumpStop
             //Disbuff->drawString("TRUMP Time", 5, 5, &fonts::Font0);
-            Disbuff->printf("%d days %02d:%02d:%02d", Restdays, Resthours, Restminutes, Restseconds); // Countdown to TrumpStop
+
+            
             if (is_test_mode)
             {
                 display->setFont(&fonts::efontCN_24);
@@ -170,72 +173,5 @@ void convertSecondsToDHMS(time_t totalSeconds, int &Restdays, int &Resthours, in
             delay(50);
         }
     }
-
-    // void TEST::gpio_test()
-    // {
-    //     printf("hat test\n");
-
-    //     display->fillScreen(TFT_BLACK);
-    //     display->setCursor(0, 5);
-    //     display->setFont(&fonts::efontCN_24);
-    //     display->setTextColor(TFT_YELLOW);
-    //     display->setTextSize(1);
-    //     display->printf("[HAT接口测试]\n\n请插上治具\n观察 [流水灯]\n和 [主机LED灯]");
-    //     displayUpdate();
-
-    //     // gpio_reset_pin(GPIO_NUM_19);
-    //     // pinMode(19, OUTPUT);
-    //     // while (1) {
-    //     //     digitalWrite(19, 0);
-    //     //     printf("19 %d\n", digitalRead(19));
-    //     //     delay(1000);
-    //     //     digitalWrite(19, 1);
-    //     //     printf("19 %d\n", digitalRead(19));
-    //     //     delay(1000);
-    //     // }
-
-    //     std::vector<gpio_num_t> gpio_list = {GPIO_NUM_26, GPIO_NUM_25, GPIO_NUM_0, GPIO_NUM_19};
-
-    //     /* Reset */
-    //     for (auto i : gpio_list) {
-    //         gpio_reset_pin(i);
-    //         pinMode(i, OUTPUT);
-    //     }
-
-    //     uint32_t time_count = 0;
-    //     auto iter = gpio_list.begin();
-    //     while (1) {
-
-    //         if ((millis() - time_count) > 600) {
-
-    //             printf("set %d %d\n", *iter, !digitalRead(*iter));
-    //             digitalWrite(*iter, !digitalRead(*iter));
-
-    //             iter++;
-    //             if (iter == gpio_list.end()) {
-    //                 iter = gpio_list.begin();
-    //             }
-
-    //             time_count = millis();
-    //         }
-
-    //         checkReboot();
-    //         if (checkNext()) {
-    //             break;
-    //         }
-
-    //     }
-
-    //     /* Reset */
-    //     for (auto i : gpio_list) {
-    //         gpio_reset_pin(i);
-    //     }
-
-    //     display->setFont(&fonts::Font0);
-    //     display->setTextSize(1);
-
-    //     printf("quit hat test\n");
-
-    // }
 
 }

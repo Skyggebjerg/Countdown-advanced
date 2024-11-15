@@ -19,7 +19,6 @@ namespace TEST
         gpio_reset_pin((gpio_num_t)POWER_HOLD_PIN);
         pinMode(POWER_HOLD_PIN, OUTPUT);
         digitalWrite(POWER_HOLD_PIN, HIGH);
-
         Wire1.begin(I2C_SDA_PIN, I2C_SCL_PIN);
     }
 
@@ -52,28 +51,6 @@ namespace TEST
         key_init();
         lcd_init();
 
-        // lcd.fillScreen(TFT_BLUE);
-        // delay(1000);
-
-        // lcd.fillScreen(TFT_RED);
-        // while (1)
-        // {
-        //     delay(1000);
-        // }
-
-        // gpio_test();
-
-        // gpio_reset_pin(GPIO_NUM_19);
-        // pinMode(19, OUTPUT);
-        // while (1) {
-        //     digitalWrite(19, 0);
-        //     printf("19 %d\n", digitalRead(19));
-        //     delay(1000);
-        //     digitalWrite(19, 1);
-        //     printf("19 %d\n", digitalRead(19));
-        //     delay(1000);
-        // }
-
         /* Check test mode */
         is_test_mode = false;
         if (!btnB.read())
@@ -89,9 +66,6 @@ namespace TEST
                 display->printf("松开按键进入测试模式");
                 display->setCursor(0, 10);
                 displayUpdate();
-
-                /* Start wifi test */
-                // wifi_init();
 
                 while (!btnB.read())
                 {
@@ -127,12 +101,9 @@ namespace TEST
 
         imu_test();
         rtc_test();
-
-        // mic_test();
-        // new_mic_test();
         new_mic_test_fft();
 
-        ir_test();
+        //ir_test(); // not to be included in the Trump countdown
 
         if (is_test_mode)
         {
@@ -141,12 +112,12 @@ namespace TEST
             // rtc_wakeup_test();
         }
 
-        wifi_test();
+        //wifi_test(); // not to be included in the Trump countdown
 
         display->setFont(&fonts::Font0);
         display->setTextSize(1);
         displayUpdate();
-        ble_test();
+        //ble_test(); // not to be included in the Trump countdown
 
         if (is_test_mode)
         {
